@@ -30,7 +30,7 @@ and any database settings.
 
 ### On Nix systems
 
-Run `devenv shell` to enter the development environment, then `devenv up` to start the services
+Run `devenv up` to start the server and services
 
 ## Important Change with index.php
 

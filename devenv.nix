@@ -1,5 +1,4 @@
 { pkgs, config, ... }:
-
 let
   phpPackage = pkgs.php.buildEnv {
     extraConfig = ''
