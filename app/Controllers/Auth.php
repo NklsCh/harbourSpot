@@ -4,12 +4,16 @@ namespace App\Controllers;
 
 class Auth extends BaseController
 {
-    public function index()
+    public function indexRegister()
     {
         return view('register');
     }
 
-    public function register()
+    public function indexLogin(){
+      return view ('login');
+    }
+
+    public function handleRegister()
     {
         $db = \Config\Database::connect();
         
@@ -38,4 +42,35 @@ class Auth extends BaseController
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function handleLogin() 
+   {
+       $db = \Config\Database::connect();
+       
+       $email = $this->request->getPost('email');
+       $password = $this->request->getPost('password');
+       
+       try {
+           $builder = $db->table('users');
+           $user = $builder->where('email', $email)->get()->getRow();
+           
+           if ($user && password_verify($password, $user->password)) {
+               $session = session();
+               $sessionData = [
+                   'user_id' => $user->id,
+                   'username' => $user->username,
+                   'email' => $user->email,
+                   'logged_in' => TRUE
+               ];
+               $session->set($sessionData);
+               
+               return redirect()->to('/');
+           } else {
+               echo "Invalid email or password!";
+           }
+           
+       } catch (\Exception $e) {
+           echo "Error: " . $e->getMessage();
+       }
+   }
 }
