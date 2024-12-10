@@ -1,8 +1,8 @@
-# CodeIgniter 4 Application Starter
+# Application Starter
 
 ## Installation & updates
 
-`composer install then `composer update` whenever
+`composer install` then `composer update` whenever
 there is a new release of the framework.
 
 ## Setup
@@ -12,7 +12,7 @@ and any database settings.
 
 ### Database
 
-Run `php spark migrate` to generate the database tables
+Run `php spark migrate` to generate the database tables <br>
 And run `php spark db:seed userSeeder` to seed the database with a user data e.g. temporary admin user
 
 ### On Nix systems
