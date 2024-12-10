@@ -3,7 +3,7 @@ namespace app\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class ceate_users_table extends Migration {
+class create_users_table extends Migration {
     public function up() {
         // Set the collation and character set
         $this->forge->addField("id int(11) NOT NULL AUTO_INCREMENT");
