@@ -10,3 +10,5 @@ $routes->get('register', 'Auth::indexRegister');
 $routes->post('register', 'Auth::handleRegister');
 $routes->get('login', 'Auth::indexLogin');
 $routes->post('login', 'Auth::handleLogin');
+$routes->get('logout', 'Auth::logout');
+$routes->get('migrate', 'Migrate::index');

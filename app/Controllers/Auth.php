@@ -69,4 +69,11 @@ class Auth extends BaseController
            echo "Error: " . $e->getMessage();
        }
    }
+   public function logout()
+    {
+        $session = session();
+        $session->destroy();
+
+        return redirect()->to('/login')->with('message', 'You have been logged out successfully');
+    }
 }
