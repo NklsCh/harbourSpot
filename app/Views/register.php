@@ -22,12 +22,6 @@
             <h2 class="text-center mb-4">Create Account</h2>
             
             <form action="<?= base_url('register') ?>" method="POST">
-                <!-- Username -->
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
-                </div>
-
                 <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>

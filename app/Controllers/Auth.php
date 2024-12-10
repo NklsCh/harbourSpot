@@ -17,16 +17,13 @@ class Auth extends BaseController
     {
         $db = \Config\Database::connect();
         
-        $username = $this->request->getPost('username');
         $email = $this->request->getPost('email');
         $password = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         
         try {
             $data = [
-                'username' => $username,
                 'email' => $email,
-                'password' => $password,
-                'created_at' => date('Y-m-d H:i:s')
+                'password' => $password
             ];
             
             $builder = $db->table('users');
@@ -58,7 +55,6 @@ class Auth extends BaseController
                $session = session();
                $sessionData = [
                    'user_id' => $user->id,
-                   'username' => $user->username,
                    'email' => $user->email,
                    'logged_in' => TRUE
                ];

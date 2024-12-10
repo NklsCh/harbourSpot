@@ -27,9 +27,9 @@ class Database extends Config
     public $default = [
         'DSN'      => '',
         'hostname' => 'localhost',
-        'username' => 'app',    // from your Nix config
-        'password' => 'app',    // from your Nix config
-        'database' => 'app',    // from your Nix config
+        'username' => '',    // from your Nix config
+        'password' => '',    // from your Nix config
+        'database' => '',    // from your Nix config
         'DBDriver' => 'MySQLi', // MariaDB is compatible with MySQLi driver
         'DBPrefix' => '',
         'pConnect' => false,
