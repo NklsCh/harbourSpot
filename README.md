@@ -28,6 +28,11 @@ to your `app` folder. The affected files can be copied or merged from
 Copy `env` to `.env` and tailor for your app, specifically the baseURL
 and any database settings.
 
+### Database
+
+Run `php spark migrate` to generate the database tables
+And run `php spark db:seed userSeeder` to seed the database with a user data e.g. temporary admin user
+
 ### On Nix systems
 
 Run `devenv up` to start the server and services
