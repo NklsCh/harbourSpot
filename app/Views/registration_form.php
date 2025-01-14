@@ -1,42 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login Formular</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .registration-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+    </style>
 </head>
-<body>
-    <div class="container mt-5">
-        <div class="form-section">
-            <h2>🔒 Registrierung</h2>
-            <form action="<?= site_url('registration/submit') ?>" method="POST">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="user" class="form-label">User</label>
-                        <input type="user" class="form-control" id="user" name="user" required>
-                        <div class="valid-feedback">
-                            Das sieht gut aus!
-                        </div>
-                        <div class="invalid-feedback">
-                            Bitte geben Sie einen validen Username ein.
-                        </div>
-                    </div>
+<body class="bg-light">
+    <div class="container">
+        <div class="registration-container bg-white">
+            <h2 class="text-center mb-4">Account registerierung</h2>
+            
+            <form action="<?= base_url('register') ?>" method="POST">
+                <!-- Vorname -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Vorname</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="password" class="form-label">Passwort</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                        <div class="valid-feedback">
-                            Das sieht gut aus!
-                        </div>
-                        <div class="invalid-feedback">
-                            Bitte gebe ein valides Passwort ein.
-                        </div>
-                    </div>
+
+                <!-- Nachname -->
+                <div class="mb-3">
+                    <label for="surname" class="form-label">Nachname</label>
+                    <input type="surname" class="form-control" id="surname" name="surname" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg">Absenden</button>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                    <label class="form-check-label" for="terms">I agree to the Terms & Conditions</label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">Register</button>
+                </div>
+
+                <!-- Login Link -->
+                <div class="text-center mt-3">
+                    Already have an account? <a href="<?= base_url('login') ?>">Login here</a>
+                </div>
             </form>
         </div>
     </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

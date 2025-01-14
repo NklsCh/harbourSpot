@@ -6,24 +6,27 @@ class Auth extends BaseController
 {
     public function indexRegister()
     {
-        return view('register');
+        return view('registration_form');
     }
 
     public function indexLogin(){
-      return view ('login');
+      return view ('login_form');
     }
 
     public function handleRegister()
     {
         $db = \Config\Database::connect();
         
-        $email = $this->request->getPost('email');
-        $password = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        $userData = $this->request->getPost();
+        $password = password_hash($userData['password'], PASSWORD_DEFAULT);
         
         try {
-            $data = [
-                'email' => $email,
-                'password' => $password
+          $data = [
+                'vorname' => $userData['name'],
+                'nachname' => $userData['surname'],
+                'email' => $userData['email'],
+                'password' => $password,
+                'role' => 'kunde'
             ];
             
             $builder = $db->table('users');
