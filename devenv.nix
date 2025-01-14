@@ -24,13 +24,13 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    initialDatabases = [ { name = "app"; } ];
+    initialDatabases = [ { name = "harbourspot"; } ];
     ensureUsers = [
       {
-        name = "app";
-        password = "app";
+        name = "root";
+        password = "root";
         ensurePermissions = {
-          "app.*" = "ALL PRIVILEGES";
+          "root.*" = "ALL PRIVILEGES";
         };
       }
     ];
