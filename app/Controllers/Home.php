@@ -1,4 +1,5 @@
 <?php
+use Dotenv\Dotenv;
 namespace App\Controllers;
 
 class Home extends BaseController
@@ -67,11 +68,7 @@ class Home extends BaseController
             ")->getResult();
 
             // Wetterdaten (Mock - könnte später durch echte API ersetzt werden)
-            $weather = [
-                'temperature' => 20,
-                'condition' => 'sunny',
-                'wind_speed' => 12
-            ];
+            $weather = $this->getWeatherData('Berlin'); 
 
             return view('dashboard', [
                 'user' => $user_data,
@@ -125,6 +122,50 @@ class Home extends BaseController
                 'date' => $date,
                 'trace' => $e->getTraceAsString()
             ])->setStatusCode(500);
+        }
+    }
+
+
+    private function getWeatherData($location)
+    {
+        $apiKey = '0334c18c428a4fb69d8111613241009'; // Replace with your actual WeatherAPI key
+        $apiUrl = 'http://api.weatherapi.com/v1/current.json';
+
+        $url = $apiUrl . "?key=$apiKey&q=" . urlencode($location);
+
+        try {
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $url,
+              CURLOPT_RETURNTRANSFER => true,
+            ]);
+
+            $response = curl_exec($curl);
+            if ($response === false) {
+                throw new \Exception('WeatherAPI request failed: ' . curl_error($curl));
+            }
+
+            curl_close($curl);
+
+            $data = json_decode($response, true);
+
+            if (isset($data['error'])) {
+                throw new \Exception('WeatherAPI error: ' . $data['error']['message']);
+            }
+
+            return [
+                'temperature' => $data['current']['temp_c'],
+                'condition' => $data['current']['condition']['text'],
+                'wind_speed' => $data['current']['wind_kph']
+            ];
+
+        } catch (\Exception $e) {
+            log_message('error', 'WeatherAPI Error: ' . $e->getMessage());
+            return [
+                'temperature' => null,
+                'condition' => 'unknown',
+                'wind_speed' => null
+            ];
         }
     }
 }
