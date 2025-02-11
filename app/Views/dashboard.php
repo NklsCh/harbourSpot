@@ -759,7 +759,7 @@ function updateDetailsPanel(berthNumber, status, boatData = null) {
     const btnBlock = document.getElementById('btn-block');
     
     // Alle Buttons standardmäßig deaktivieren
-    [btnRent, btnCancel, btnReserve, btnBlock].forEach(btn => btn.disabled = true);
+    [btnRent, btnCancel, btnReserve, btnBlock].forEach(btn => btn.disabled = false);
     
     let detailsHtml = '';
     

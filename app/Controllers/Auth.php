@@ -44,34 +44,33 @@ class Auth extends BaseController
     }
 
     public function handleLogin() 
-   {
-       $db = \Config\Database::connect();
-       
-       $email = $this->request->getPost('email');
-       $password = $this->request->getPost('password');
-       
-       try {
-           $builder = $db->table('users');
-           $user = $builder->where('user_email', $email)->get()->getRow();
-           
-           if ($user && password_verify($password, $user->user_password)) {
-               $session = session();
-               $sessionData = [
-                   'user_id' => $user->user_id,
-                   'email' => $user->user_email,
-                   'logged_in' => TRUE
-               ];
-               $session->set($sessionData);
-               
-               return redirect()->to('/');
-           } else {
-               echo "Invalid email or password!";
-           }
-           
-       } catch (\Exception $e) {
-           echo "Error: " . $e->getMessage();
-       }
-   }
+    {
+        $db = \Config\Database::connect();
+        
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+        
+        try {
+            $userModel = new \App\Models\UserModel();
+            $user = $userModel->getUserByEmail($email);
+            
+            if ($user && password_verify($password, $user->user_password)) {
+                $session = session();
+                $sessionData = [
+                    'user' => $user,
+                    'logged_in' => TRUE
+                ];
+                $session->set($sessionData);
+                
+                return redirect()->to('/');
+            } else {
+                echo "Invalid email or password!";
+            }
+            
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
    public function logout()
     {
         $session = session();
