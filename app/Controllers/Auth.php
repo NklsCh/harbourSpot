@@ -22,11 +22,11 @@ class Auth extends BaseController
         
         try {
           $data = [
-                'vorname' => $userData['name'],
-                'nachname' => $userData['surname'],
-                'email' => $userData['email'],
-                'password' => $password,
-                'role' => 'kunde'
+                'user_name' => $userData['name'],
+                'user_surname' => $userData['surname'],
+                'user_email' => $userData['email'],
+                'user_password' => $password,
+                'user_role' => 'kunde'
             ];
             
             $builder = $db->table('users');
@@ -52,13 +52,13 @@ class Auth extends BaseController
        
        try {
            $builder = $db->table('users');
-           $user = $builder->where('email', $email)->get()->getRow();
+           $user = $builder->where('user_email', $email)->get()->getRow();
            
-           if ($user && password_verify($password, $user->password)) {
+           if ($user && password_verify($password, $user->user_password)) {
                $session = session();
                $sessionData = [
-                   'user_id' => $user->id,
-                   'email' => $user->email,
+                   'user_id' => $user->user_id,
+                   'email' => $user->user_email,
                    'logged_in' => TRUE
                ];
                $session->set($sessionData);

@@ -3,7 +3,7 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::indexHome');
 
 $routes->get('register', 'Auth::indexRegister');
 $routes->post('register', 'Auth::handleRegister');

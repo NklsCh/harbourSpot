@@ -1,20 +1,25 @@
 <?php
-use Dotenv\Dotenv;
 namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index()
+    public function indexHome()
     {
         try {
             $db = \Config\Database::connect();
+
+            if (!session()->get('logged_in')) {
+                return redirect()->to('/login');
+            }
             
             // Aktuelle Session-Daten des Users
-            $user_data = [
-                'user_id' => session()->get('user_id') ?? 1,  // Fallback auf Test-User
-                'user_name' => session()->get('user_name') ?? 'Max Mustermann',
-                'user_role' => session()->get('user_role') ?? 'kunde'
-            ];
+            $user = $db->query("
+                SELECT *
+                FROM users
+                WHERE user_id = ?
+            ", [session()->get('user_id')])->getRowArray();
+
+            $user_data = $user;
 
             // Alle Liegeplätze mit Status
             $berths = $db->query("
@@ -54,11 +59,11 @@ class Home extends BaseController
                     br.*,
                     b.berth_number,
                     COALESCE(ob.name, hb.name) as boat_name,
-                    u.vorname,
-                    u.nachname
+                    u.user_name,
+                    u.user_surname
                 FROM berth_rentals br
                 JOIN berths b ON br.berth_id = b.id
-                JOIN users u ON br.user_id = u.id
+                JOIN users u ON br.user_id = u.user_id
                 LEFT JOIN owned_boats ob ON br.owned_boat_id = ob.id
                 LEFT JOIN boat_rentals bor ON br.boat_rental_id = bor.id
                 LEFT JOIN harbor_boats hb ON bor.harbor_boat_id = hb.id
@@ -68,7 +73,7 @@ class Home extends BaseController
             ")->getResult();
 
             // Wetterdaten (Mock - könnte später durch echte API ersetzt werden)
-            $weather = $this->getWeatherData('Berlin'); 
+            $weather = $this->getWeatherData('Krefeld'); 
 
             return view('dashboard', [
                 'user' => $user_data,

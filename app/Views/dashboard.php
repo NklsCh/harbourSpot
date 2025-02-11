@@ -382,6 +382,34 @@
             cursor: not-allowed;
             filter: grayscale(100%);
         }
+
+        .user-info {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            background-color: #f2f2f7;
+            border-radius: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .logout-button {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            z-index: 1000;
+        }
+
+        .logout-button .btn {
+            width: 100%;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -395,21 +423,18 @@
                             <i class="bi bi-grid"></i> Liegeplätze
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-calendar"></i> Vermietung
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-graph-up"></i> Statistik
-                        </a>
-                    </li>
                 </ul>
                 <div class="d-flex align-items-center">
-                    <span class="me-2"><?= esc($user['user_name']) ?></span>
+            <div class="user-info">
+                <div class="user-box" onclick="document.getElementById('logout-button').style.display = document.getElementById('logout-button').style.display === 'block' ? 'none' : 'block';">
+                    <span class="me-2"><?= esc($user['user_name'] . " ". esc($user['user_surname'])) ?></span>
                     <span class="badge bg-secondary"><?= esc($user['user_role']) ?></span>
                 </div>
+                <div id="logout-button" class="logout-button">
+                    <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+                </div>
+            </div>
+        </div>
             </div>
         </nav>
 
@@ -518,16 +543,17 @@
                                 <select class="form-select w-auto" id="month-select">
                                     <?php
                                     $months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 
-                                             'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+                                               'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+                                    $currentMonth = intval(date('n'));
                                     foreach ($months as $i => $month):
                                     ?>
-                                        <option value="<?= $i + 1 ?>" <?= (date('n') === $i + 1) ? 'selected' : '' ?>>
+                                        <option value="<?= $i + 1 ?>" <?= ($currentMonth === $i + 1) ? 'selected' : '' ?>>
                                             <?= $month ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span id="year-display">2024</span>
+                                    <span id="year-display"><?= date('Y') ?></span>
                                     <div class="btn-group-vertical btn-group-sm">
                                         <button class="btn btn-outline-secondary py-0" id="year-up">▲</button>
                                         <button class="btn btn-outline-secondary py-0" id="year-down">▼</button>
@@ -614,7 +640,7 @@
     const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
     
-    // Wetterdaten aktualisieren (Mock-Daten)
+/*     // Wetterdaten aktualisieren (Mock-Daten)
     let weatherData = {
         temperature: Math.floor(Math.random() * (30 - 10) + 10),
         condition: ['sunny', 'cloudy', 'rainy'][Math.floor(Math.random() * 3)],
@@ -632,7 +658,7 @@
         <span>${weatherData.temperature}°C</span>
         <span class="text-muted">|</span>
         <span>${weatherData.windSpeed} km/h</span>
-    `;
+    `; */
     
     console.log('Requesting berth status for date:', formattedDate); // Debug-Log
 
@@ -714,6 +740,15 @@ document.querySelectorAll('.boat-card').forEach(boat => {
             name: this.querySelector('.boat-title').textContent
         });
     });
+});
+
+// Close the logout button if clicked outside
+document.addEventListener('click', function(event) {
+    const userInfo = document.querySelector('.user-info');
+    const logoutButton = document.getElementById('logout-button');
+    if (!userInfo.contains(event.target)) {
+        logoutButton.style.display = 'none';
+    }
 });
 
 function updateDetailsPanel(berthNumber, status, boatData = null) {
