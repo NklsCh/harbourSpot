@@ -14,14 +14,11 @@ class UserModel extends Model
         'user_email',
         'user_role',
     ];
+
+    protected $returnType = 'object';
     
     public function getUserByEmail($email)
     {
         return $this->where('user_email', $email)->first();
     }
-    
-    protected $validationRules = [
-        'email'    => 'required|valid_email|is_unique[users.email]',
-        'password' => 'required|min_length[6]'
-    ];
 }

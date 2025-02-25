@@ -11,15 +11,12 @@ class Home extends BaseController
             if (!session()->get('logged_in')) {
                 return redirect()->to('/login');
             }
-            
-            // Aktuelle Session-Daten des Users
+
             $user = $db->query("
                 SELECT *
                 FROM users
                 WHERE user_id = ?
-            ", [session()->get('user_id')])->getRowArray();
-
-            $user_data = $user;
+            ", [session()->get(user->user_id)])->getRow();
 
             // Alle Liegeplätze mit Status
             $berths = $db->query("
@@ -44,14 +41,14 @@ class Home extends BaseController
                 WHERE br.user_id = ? 
                 AND br.status = 'aktiv'
                 AND CURRENT_DATE BETWEEN br.start_date AND br.end_date
-            ", [$user_data['user_id']])->getResult();
+            ", [$user_data->user_id])->getResult();
 
             // Eigene Boote des Users
             $owned_boats = $db->query("
                 SELECT *
                 FROM owned_boats
                 WHERE owner_id = ?
-            ", [$user_data['user_id']])->getResult();
+            ", [$user_data->user_id])->getResult();
 
             // Aktive Vermietungen für den aktuellen Tag
             $active_rentals = $db->query("

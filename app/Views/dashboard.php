@@ -262,19 +262,19 @@
             box-shadow: 0 0 0 3px #0d6efd;
         }
 
-        .berth.available { 
+        .berth.frei { 
             border-color: #28a745; 
             background-color: rgba(40, 167, 69, 0.1); 
         }
-        .berth.occupied { 
+        .berth.belegt { 
             border-color: #dc3545; 
             background-color: rgba(220, 53, 69, 0.1); 
         }
-        .berth.reserved { 
+        .berth.reserviert { 
             border-color: #ffc107; 
             background-color: rgba(255, 193, 7, 0.1); 
         }
-        .berth.blocked { 
+        .berth.gesperrt { 
             border-color: #6c757d; 
             background-color: rgba(108, 117, 125, 0.1); 
         }
@@ -427,8 +427,8 @@
                 <div class="d-flex align-items-center">
             <div class="user-info">
                 <div class="user-box" onclick="document.getElementById('logout-button').style.display = document.getElementById('logout-button').style.display === 'block' ? 'none' : 'block';">
-                    <span class="me-2"><?= esc($user['user_name'] . " ". esc($user['user_surname'])) ?></span>
-                    <span class="badge bg-secondary"><?= esc($user['user_role']) ?></span>
+                    <span class="me-2"><?= esc($user->user_name . " ". esc($user->user_surname)) ?></span>
+                    <span class="badge bg-secondary"><?= esc($user->user_role) ?></span>
                 </div>
                 <div id="logout-button" class="logout-button">
                     <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
